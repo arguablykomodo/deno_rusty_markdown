@@ -12,7 +12,6 @@ await Deno.run({ cmd: ["wasm-bindgen", "--target", "deno", "--out-dir", dir, `ta
 
 const wasm = await Deno.readFile(`${dir}/${name}_bg.wasm`);
 const encoded = encode(compress(wasm));
-await Deno.remove(`${dir}/${name}_bg.wasm`);
 
 const search = String.raw`const file = new URL(import.meta.url).pathname;
 const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + '${name}_bg.wasm';

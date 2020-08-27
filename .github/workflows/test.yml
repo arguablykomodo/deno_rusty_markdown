@@ -1,0 +1,41 @@
+name: Run tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        deno: ["v1.x", "nightly"]
+        rust: ["stable", "nightly"]
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v2
+        with:
+          toolchain: ${{ matrix.rust }}
+          profile: minimal
+          override: true
+      - name: Setup wasm-bindgen
+        uses: actions-rs/install@v0.1
+        with:
+          crate: wasm-bindgen-cli
+          version: 0.2.67
+          use-tool-cache: true
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+        with:
+          deno-version: ${{ matrix.deno }}
+      - name: Run Rust tests
+        run: cargo test
+      - name: Build WebAssembly
+        run: ./build.sh
+      - name: Run Deno tests
+        run: deno test -A

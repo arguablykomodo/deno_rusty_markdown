@@ -9,12 +9,12 @@ export interface Options {
   /** Enables Github flavored tables. */
   tables?: boolean;
   /**
-   * Enables footnotes[^1].
+   * Enables footnotes\[^1\].
    *
-   * [^1]: Like this.
+   * \[^1\]: Like this.
    */
   footnotes?: boolean;
-  /** Enables strikethrough text, ~~like this~~. */
+  /** Enables strikethrough text, \~\~like this\~\~. */
   strikethrough?: boolean;
   /** Enabled Github flavored task lists. */
   tasklists?: boolean;

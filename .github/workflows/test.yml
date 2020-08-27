@@ -36,6 +36,6 @@ jobs:
       - name: Run Rust tests
         run: cargo test
       - name: Build WebAssembly
-        run: ./build.sh
+        run: ./build.ts
       - name: Run Deno tests
-        run: deno test -A
+        run: deno test

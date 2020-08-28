@@ -1,4 +1,4 @@
-name: Run tests
+name: Make sure WASM output is up to date
 
 on:
   push:
@@ -9,17 +9,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        deno: ["v1.x", "nightly"]
-        rust: ["stable", "nightly"]
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.rust }}
+          toolchain: stable
           target: wasm32-unknown-unknown
           profile: minimal
           override: true
@@ -32,8 +28,6 @@ jobs:
       - name: Setup Deno
         uses: denolib/setup-deno@v2
         with:
-          deno-version: ${{ matrix.deno }}
-      - name: Run Rust tests
-        run: cargo test
-      - name: Run Deno tests
-        run: deno test
+          deno-version: v1.x
+      - name: Check if WASM output is up to date
+        run: scripts/compare_checksums.sh

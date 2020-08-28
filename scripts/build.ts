@@ -26,7 +26,7 @@ const wasmModule = new WebAssembly.Module(Deno.readFileSync(wasmFile));`;
 const replace =
 `import { decode } from "https://deno.land/std@0.66.0/encoding/base64.ts";
 import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
-const wasmModule = new WebAssembly.Module(decompress(decode("${encoded}")));`;
+const wasmModule = new WebAssembly.Module(decompress(new Uint8Array(decode("${encoded}"))));`;
 
 const js = await Deno.readTextFile(`${dir}/${name}.js`);
 await Deno.writeTextFile(`${dir}/${name}.js`, js.replace(search, replace));

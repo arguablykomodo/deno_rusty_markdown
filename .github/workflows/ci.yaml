@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  wasm:
+    name: Check WebAssembly is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+      - name: Setup wasm-bindgen
+        uses: actions-rs/install@v0.1
+        with:
+          crate: wasm-bindgen-cli
+          version: 0.2.67
+          use-tool-cache: true
+      - name: Compare checksums
+        run: |
+          OLD="$(find pkg -type f -print0 | sort -z | xargs -r0 md5sum | md5sum)"
+          echo "$OLD"
+          deno run --allow-read --allow-write --allow-run scripts/build.ts
+          NEW="$(find pkg -type f -print0 | sort -z | xargs -r0 md5sum | md5sum)"
+          echo "$NEW"
+          if [ "$OLD" != "$NEW" ]; then exit 1; fi
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    needs: wasm
+    strategy:
+      matrix:
+        deno: ["v1.x", "nightly"]
+        rust: ["stable", "nightly"]
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+        with:
+          rust-version: ${{ matrix.rust }}
+          deno-version: ${{ matrix.deno }}
+      - name: Run Rust tests
+        run: cargo test
+      - name: Run Deno tests
+        run: deno test

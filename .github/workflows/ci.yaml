@@ -11,6 +11,8 @@ jobs:
     name: Check WebAssembly is up to date
     runs-on: ubuntu-latest
     steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
       - name: Setup environment
         uses: ./.github/actions/setup-env
       - name: Setup wasm-bindgen
@@ -36,6 +38,8 @@ jobs:
         deno: ["v1.x", "nightly"]
         rust: ["stable", "nightly"]
     steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
       - name: Setup environment
         uses: ./.github/actions/setup-env
         with:

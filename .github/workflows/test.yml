@@ -33,9 +33,9 @@ jobs:
         uses: denolib/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno }}
+      - name: Check if WASM output is up to date
+        run: scripts/compare_checksums.sh
       - name: Run Rust tests
         run: cargo test
-      - name: Build WebAssembly
-        run: deno run --allow-read --allow-write --allow-run ./build.ts
       - name: Run Deno tests
         run: deno test

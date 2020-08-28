@@ -16,7 +16,7 @@ export interface Options {
   footnotes?: boolean;
   /** Enables strikethrough text, \~\~like this\~\~. */
   strikethrough?: boolean;
-  /** Enabled Github flavored task lists. */
+  /** Enables Github flavored task lists. */
   tasklists?: boolean;
 }
 

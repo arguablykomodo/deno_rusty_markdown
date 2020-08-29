@@ -9,7 +9,7 @@ some boilerplate code for interacting with it.
 
 ## Example
 
-```
+```ts
 import { parse } from "https://deno.land/x/rusty_markdown@v0.1.0/mod.ts";
 
 console.log(parse("Hello **World**!"));

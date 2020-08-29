@@ -7,38 +7,37 @@ on:
     branches: [master]
 
 jobs:
-  wasm:
-    name: Check WebAssembly is up to date
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup repo
-        uses: actions/checkout@v2
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          profile: minimal
-          override: true
-      - name: Setup Deno
-        uses: denolib/setup-deno@v2
-        with:
-          deno-version: v1.x
-      - name: Setup wasm-bindgen
-        uses: actions-rs/install@v0.1
-        with:
-          crate: wasm-bindgen-cli
-          version: 0.2.67
-          use-tool-cache: true
-      - name: Compare checksums
-        run: |
-          deno run --allow-read --allow-write --allow-run scripts/build.ts
-          git status --porcelain
-          git diff --quiet pkg
+  # wasm:
+  #   name: Check WebAssembly is up to date
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Setup repo
+  #       uses: actions/checkout@v2
+  #     - name: Setup Rust
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         toolchain: stable
+  #         target: wasm32-unknown-unknown
+  #         profile: minimal
+  #         override: true
+  #     - name: Setup Deno
+  #       uses: denolib/setup-deno@v2
+  #       with:
+  #         deno-version: v1.x
+  #     - name: Setup wasm-bindgen
+  #       uses: actions-rs/install@v0.1
+  #       with:
+  #         crate: wasm-bindgen-cli
+  #         version: 0.2.67
+  #         use-tool-cache: true
+  #     - name: Compare checksums
+  #       run: |
+  #         deno run --allow-read --allow-write --allow-run scripts/build.ts
+  #         git status --porcelain
+  #         git diff --quiet pkg
   test:
     name: Run tests
     runs-on: ubuntu-latest
-    needs: wasm
     strategy:
       matrix:
         deno: ["v1.x", "nightly"]

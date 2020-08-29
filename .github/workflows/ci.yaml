@@ -58,5 +58,7 @@ jobs:
           deno-version: ${{ matrix.deno }}
       - name: Run Rust tests
         run: cargo test
+      - name: Reload Deno cache
+        run: deno cache --reload *.ts
       - name: Run Deno tests
         run: deno test

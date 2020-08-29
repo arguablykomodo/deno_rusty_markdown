@@ -31,7 +31,9 @@ jobs:
           version: 0.2.67
           use-tool-cache: true
       - name: Compare checksums
-        run: scripts/compare_checksums.sh
+        run: |
+          deno run --allow-read --allow-write --allow-run scripts/build.ts
+          git diff-index --quiet HEAD
   test:
     name: Run tests
     runs-on: ubuntu-latest

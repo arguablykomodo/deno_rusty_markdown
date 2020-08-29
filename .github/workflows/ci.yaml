@@ -33,6 +33,7 @@ jobs:
       - name: Compare checksums
         run: |
           deno run --allow-read --allow-write --allow-run scripts/build.ts
+          git status --porcelain
           git diff --quiet pkg
   test:
     name: Run tests

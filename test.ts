@@ -1,14 +1,23 @@
 import { parse } from "./mod.ts";
 import { assertEquals } from "https://deno.land/std@0.66.0/testing/asserts.ts";
 
-Deno.test("parse", () => {
-  const text = "Hello world, this is a ~~complicated~~ *very simple* example.";
+const input = "Hello world, this is a ~~complicated~~ *very simple* example.";
+
+const output =
+  "<p>Hello world, this is a ~~complicated~~ <em>very simple</em> example.</p>\n";
+Deno.test("parses markdown", () => {
+  assertEquals(parse(input), { parsed: output });
+});
+
+const striked =
+  "<p>Hello world, this is a <del>complicated</del> <em>very simple</em> example.</p>\n";
+Deno.test("handles options", () => {
+  assertEquals(parse(input, { strikethrough: true }), { parsed: striked });
+});
+
+Deno.test("handles frontmatter", () => {
   assertEquals(
-    parse(text),
-    "<p>Hello world, this is a ~~complicated~~ <em>very simple</em> example.</p>\n",
-  );
-  assertEquals(
-    parse(text, { strikethrough: true }),
-    "<p>Hello world, this is a <del>complicated</del> <em>very simple</em> example.</p>\n",
+    parse("---\nfoo: bar\n---\n" + input, { frontmatter: true }),
+    { parsed: output, frontmatter: { foo: "bar" } },
   );
 });

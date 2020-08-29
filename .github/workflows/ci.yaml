@@ -35,8 +35,8 @@ jobs:
   #         deno run --allow-read --allow-write --allow-run scripts/build.ts
   #         git status --porcelain
   #         git diff --quiet pkg
-  test:
-    name: Run tests
+  ci:
+    name: Run tests and benchmarks
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -58,7 +58,7 @@ jobs:
           deno-version: ${{ matrix.deno }}
       - name: Run Rust tests
         run: cargo test
-      - name: Reload Deno cache
-        run: deno cache --reload *.ts
       - name: Run Deno tests
         run: deno test
+      - name: Run Deno benchmarks
+        run: deno run bench.ts

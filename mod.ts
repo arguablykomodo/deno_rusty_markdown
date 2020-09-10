@@ -23,6 +23,8 @@ export interface Options {
   tasklists?: boolean;
   /** Enables parsing of YAML frontmatter */
   frontmatter?: boolean;
+  /** Enables smart punctuation (turns -- into –) */
+  smartPunctuation?: boolean;
 }
 
 /**
@@ -53,7 +55,8 @@ function encodeOptions(options: Options): number {
   return (+(options.tables ?? false) << 1) +
     (+(options.footnotes ?? false) << 2) +
     (+(options.strikethrough ?? false) << 3) +
-    (+(options.tasklists ?? false) << 4);
+    (+(options.tasklists ?? false) << 4) +
+    (+(options.smartPunctuation ?? false) << 5);
 }
 
 /**

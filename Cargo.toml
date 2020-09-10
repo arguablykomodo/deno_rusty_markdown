@@ -1,6 +1,6 @@
 [package]
 name = "deno_rusty_markdown"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Sr Komodo <komodosr@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasm-bindgen = "0.2.67"
-pulldown-cmark = "0.7.2"
+pulldown-cmark = "0.8.0"
 
 [profile.release]
 opt-level = "s"

@@ -2,7 +2,7 @@
 //    ^ No idea why but this line breaks the cache. Seems like it would be
 //    fixed with closing deno issue #7225
 import { parse as internalParse } from "./pkg/deno_rusty_markdown.js";
-import { parse as yamlParse } from "https://deno.land/std@0.67.0/encoding/yaml.ts";
+import { parse as yamlParse } from "https://deno.land/std@0.69.0/encoding/yaml.ts";
 
 /**
  * Option object containing flags for enabling extra features that are not part

@@ -2,7 +2,7 @@ import { parse } from "./mod.ts";
 import {
   bench,
   runBenchmarks,
-} from "https://deno.land/std@0.67.0/testing/bench.ts";
+} from "https://deno.land/std@0.69.0/testing/bench.ts";
 
 const input = "Hello world, this is a ~~complicated~~ *very simple* example.";
 

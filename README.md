@@ -6,7 +6,7 @@ made in Rust, compiled to WebAssembly. Also supports parsing YAML frontmatter.
 ## Example
 
 ```ts
-import { parse } from "https://deno.land/x/rusty_markdown@v0.1.0/mod.ts";
+import { parse } from "https://deno.land/x/rusty_markdown@v0.2.1/mod.ts";
 
 console.log(parse("Hello **World**!"));
 // { parsed: "<p>Hello <strong>World</strong>!</p>" }

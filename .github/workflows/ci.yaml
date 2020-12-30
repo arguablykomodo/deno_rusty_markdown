@@ -41,7 +41,7 @@ jobs:
     strategy:
       matrix:
         deno: ["v1.x", "nightly"]
-        rust: ["stable", "nightly"]
+        rust: ["nightly"]
     steps:
       - name: Setup repo
         uses: actions/checkout@v2

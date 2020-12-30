@@ -1,3 +1,5 @@
+cargo-features = ["strip"]
+
 [package]
 name = "deno_rusty_markdown"
 version = "0.2.1"
@@ -15,3 +17,4 @@ pulldown-cmark = "0.8.0"
 [profile.release]
 opt-level = "s"
 lto = true
+strip = "symbols"

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write --allow-run
+#!/usr/bin/env -S deno run --allow-read=wasm --allow-write=wasm --allow-run
 import { emptyDir } from "https://deno.land/std@0.82.0/fs/empty_dir.ts";
 import { encode } from "https://deno.land/std@0.82.0/encoding/base64.ts";
 import { compress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";

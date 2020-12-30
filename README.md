@@ -6,7 +6,7 @@ made in Rust, compiled to WebAssembly.
 ## Example
 
 ```ts
-import { html } from "https://deno.land/x/rusty_markdown@v0.2.1/mod.ts";
+import { html } from "https://deno.land/x/rusty_markdown@v0.3.0/mod.ts";
 
 console.log(html("Hello **World**!"));
 // "<p>Hello <strong>World</strong>!</p>\n"

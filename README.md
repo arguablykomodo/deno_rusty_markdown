@@ -6,13 +6,13 @@ made in Rust, compiled to WebAssembly.
 ## Example
 
 ```ts
-import { parse } from "https://deno.land/x/rusty_markdown@v0.2.1/mod.ts";
+import { html } from "https://deno.land/x/rusty_markdown@v0.2.1/mod.ts";
 
-console.log(parse("Hello **World**!"));
-// { parsed: "<p>Hello <strong>World</strong>!</p>" }
+console.log(html("Hello **World**!"));
+// "<p>Hello <strong>World</strong>!</p>"
 
-console.log(parse("Hello ~~Friends~~ **World**!", { strikethrough: true }));
-// { parsed: "<p>Hello <del>Friends</del> <strong>World</strong>!</p>" }
+console.log(html("Hello ~~Friends~~ **World**!", { strikethrough: true }));
+// "<p>Hello <del>Friends</del> <strong>World</strong>!</p>"
 ```
 
 ## Repo Structure

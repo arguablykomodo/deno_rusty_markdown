@@ -1,5 +1,8 @@
 // @deno-types="./pkg/deno_rusty_markdown.d.ts"
-import { parse as internalParse } from "./pkg/deno_rusty_markdown.js";
+import {
+  html as internalHtml,
+  parse as internalParse,
+} from "./pkg/deno_rusty_markdown.js";
 
 /**
  * Option object containing flags for enabling extra features that are not part
@@ -43,9 +46,93 @@ function encodeOptions(options: Options): number {
  * @param options - Extra enabled features
  * @returns Parsed HTML
  */
-export function parse(
+export function html(
   text: string,
   options: Options = {},
 ): string {
+  return internalHtml(text, encodeOptions(options));
+}
+
+type Token = {
+  type: "softBreak" | "hardBreak" | "Rule";
+} | {
+  type: "footnoteReference";
+  label: string;
+} | {
+  type: "taskListMarker";
+  checked: boolean;
+} | {
+  type: "text" | "code" | "html";
+  content: string;
+} | {
+  type: "startTag" | "endTag";
+  tag:
+    | "paragraph"
+    | "blockQuote"
+    | "listItem"
+    | "tableHead"
+    | "tableRow"
+    | "tableCell"
+    | "emphasis"
+    | "strong"
+    | "strikethrough";
+} | {
+  type: "startTag" | "endTag";
+  tag: "heading";
+  level: number;
+} | {
+  type: "startTag" | "endTag";
+  tag: "footnoteDefinition";
+  label: string;
+} | {
+  type: "startTag" | "endTag";
+  tag: "list";
+  kind: "unordered";
+} | {
+  type: "startTag" | "endTag";
+  tag: "list";
+  kind: "ordered";
+  number: number;
+} | {
+  type: "startTag" | "endTag";
+  tag: "codeBlock";
+  kind: "indented";
+} | {
+  type: "startTag" | "endTag";
+  tag: "codeBlock";
+  kind: "fenced";
+  lang: string;
+} | {
+  type: "startTag" | "endTag";
+  tag: "table";
+  alignment: ("none" | "left" | "center" | "right")[];
+} | {
+  type: "startTag" | "endTag";
+  tag: "link" | "image";
+  kind:
+    | "inline"
+    | "reference"
+    | "referenceUnknown"
+    | "collapsed"
+    | "collapsedUnknown"
+    | "shortcut"
+    | "shortcutUnknown"
+    | "autolink"
+    | "email";
+  url: string;
+  title: string;
+};
+
+/**
+ * Parses the given Markdown into a list of tokens.
+ *
+ * @param text - Source Markdown text
+ * @param options - Extra enabled features
+ * @returns Token list
+ */
+export function parse(
+  text: string,
+  options: Options = {},
+): Token[] {
   return internalParse(text, encodeOptions(options));
 }

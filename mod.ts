@@ -1,8 +1,8 @@
-// @deno-types="./pkg/deno_rusty_markdown.d.ts"
+// @deno-types="./wasm/deno_rusty_markdown.d.ts"
 import {
   html as internalHtml,
   parse as internalParse,
-} from "./pkg/deno_rusty_markdown.js";
+} from "./wasm/deno_rusty_markdown.js";
 
 /**
  * Option object containing flags for enabling extra features that are not part

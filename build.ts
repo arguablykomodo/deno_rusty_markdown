@@ -8,7 +8,7 @@ async function run(cmd: string) {
   if (!(await command.status()).success) return Deno.exit(1);
 }
 
-const dir = "pkg";
+const dir = "wasm";
 const name = "deno_rusty_markdown";
 const target = "wasm32-unknown-unknown";
 

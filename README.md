@@ -9,10 +9,38 @@ made in Rust, compiled to WebAssembly.
 import { html } from "https://deno.land/x/rusty_markdown@v0.2.1/mod.ts";
 
 console.log(html("Hello **World**!"));
-// "<p>Hello <strong>World</strong>!</p>"
+// "<p>Hello <strong>World</strong>!</p>\n"
 
 console.log(html("Hello ~~Friends~~ **World**!", { strikethrough: true }));
-// "<p>Hello <del>Friends</del> <strong>World</strong>!</p>"
+// "<p>Hello <del>Friends</del> <strong>World</strong>!</p>\n"
+
+console.log(parse("Foo *Bar*"));
+// [
+//   {
+//     type: "startTag",
+//     tag: "paragraph",
+//   },
+//   {
+//     type: "text",
+//     content: "Foo ",
+//   },
+//   {
+//     type: "startTag",
+//     tag: "emphasis",
+//   },
+//   {
+//     type: "text",
+//     content: "Bar",
+//   },
+//   {
+//     type: "endTag",
+//     tag: "emphasis",
+//   },
+//   {
+//     type: "endTag",
+//     tag: "paragraph",
+//   },
+// ],
 ```
 
 ## Repo Structure

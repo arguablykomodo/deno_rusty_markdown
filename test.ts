@@ -1,4 +1,4 @@
-import { parse, html } from "./mod.ts";
+import { html, parse } from "./mod.ts";
 import { assertEquals } from "https://deno.land/std@0.82.0/testing/asserts.ts";
 
 const input = "Hello world, this is a ~~complicated~~ *very simple* example.";
@@ -96,6 +96,48 @@ Deno.test("parse with options", () => {
       {
         type: "text",
         content: " example.",
+      },
+      {
+        type: "endTag",
+        tag: "paragraph",
+      },
+    ],
+  );
+});
+
+Deno.test("doctests", () => {
+  assertEquals(
+    html("Hello **World**!"),
+    "<p>Hello <strong>World</strong>!</p>\n",
+  );
+
+  assertEquals(
+    html("Hello ~~Friends~~ **World**!", { strikethrough: true }),
+    "<p>Hello <del>Friends</del> <strong>World</strong>!</p>\n",
+  );
+
+  assertEquals(
+    parse("Foo *Bar*"),
+    [
+      {
+        type: "startTag",
+        tag: "paragraph",
+      },
+      {
+        type: "text",
+        content: "Foo ",
+      },
+      {
+        type: "startTag",
+        tag: "emphasis",
+      },
+      {
+        type: "text",
+        content: "Bar",
+      },
+      {
+        type: "endTag",
+        tag: "emphasis",
       },
       {
         type: "endTag",

@@ -9,7 +9,7 @@ license = "MIT"
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = "0.2.68"
+wasm-bindgen = "0.2.69"
 pulldown-cmark = "0.8.0"
 
 [profile.release]

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-run
-import { emptyDir } from "https://deno.land/std@0.69.0/fs/empty_dir.ts";
-import { encode } from "https://deno.land/std@0.69.0/encoding/base64.ts";
+import { emptyDir } from "https://deno.land/std@0.82.0/fs/empty_dir.ts";
+import { encode } from "https://deno.land/std@0.82.0/encoding/base64.ts";
 import { compress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 
 async function run(cmd: string) {
@@ -24,7 +24,7 @@ String.raw`const file = new URL(import.meta.url).pathname;
 const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + '${name}_bg.wasm';
 const wasmModule = new WebAssembly.Module(Deno.readFileSync(wasmFile));`;
 const replace =
-`import { decode } from "https://deno.land/std@0.69.0/encoding/base64.ts";
+`import { decode } from "https://deno.land/std@0.82.0/encoding/base64.ts";
 import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 const wasmModule = new WebAssembly.Module(decompress(new Uint8Array(decode("${encoded}"))));`;
 

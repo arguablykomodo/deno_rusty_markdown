@@ -30,17 +30,4 @@ bench({
   },
 });
 
-const inputFrontmatter = "---\nfoo: bar\n---\n" + input;
-bench({
-  name: "parse with frontmatter",
-  runs: 1000,
-  func(b): void {
-    b.start();
-    for (let i = 0; i < 1000; i++) {
-      parse(inputFrontmatter, { frontmatter: true });
-    }
-    b.stop();
-  },
-});
-
 runBenchmarks();

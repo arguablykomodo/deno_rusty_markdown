@@ -1,7 +1,7 @@
 # `rusty_markdown`
 
 Deno bindings for [`pulldown-cmark`][1], a CommonMark-compliant Markdown parser
-made in Rust, compiled to WebAssembly. Also supports parsing YAML frontmatter.
+made in Rust, compiled to WebAssembly.
 
 ## Example
 
@@ -13,9 +13,6 @@ console.log(parse("Hello **World**!"));
 
 console.log(parse("Hello ~~Friends~~ **World**!", { strikethrough: true }));
 // { parsed: "<p>Hello <del>Friends</del> <strong>World</strong>!</p>" }
-
-console.log(parse("---\nfoo: bar\n---\nHello **World**!", { frontmatter: true }));
-// { parsed: "<p>Hello <strong>World</strong>!</p>", frontmatter: { foo: "bar" } }
 ```
 
 ## Repo Structure

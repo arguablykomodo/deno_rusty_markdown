@@ -1,5 +1,5 @@
 import { html, parse } from "./mod.ts";
-import { assertEquals } from "https://deno.land/std@0.82.0/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.101.0/testing/asserts.ts";
 
 const input = "Hello world, this is a ~~complicated~~ *very simple* example.";
 

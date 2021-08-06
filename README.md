@@ -17,7 +17,7 @@ console.log(html("Hello ~~Friends~~ **World**!", { strikethrough: true }));
 console.log(parse("Foo *Bar*"));
 // [
 //   {
-//     type: "startTag",
+//     type: "start",
 //     tag: "paragraph",
 //   },
 //   {
@@ -25,7 +25,7 @@ console.log(parse("Foo *Bar*"));
 //     content: "Foo ",
 //   },
 //   {
-//     type: "startTag",
+//     type: "start",
 //     tag: "emphasis",
 //   },
 //   {
@@ -33,11 +33,11 @@ console.log(parse("Foo *Bar*"));
 //     content: "Bar",
 //   },
 //   {
-//     type: "endTag",
+//     type: "end",
 //     tag: "emphasis",
 //   },
 //   {
-//     type: "endTag",
+//     type: "end",
 //     tag: "paragraph",
 //   },
 // ],

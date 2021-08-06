@@ -24,8 +24,8 @@ pub fn parse(text: &str, options: u32) -> js_sys::Array {
             &object,
             "type",
             match event {
-                Start(_) => "startTag",
-                End(_) => "endTag",
+                Start(_) => "start",
+                End(_) => "end",
                 Text(_) => "text",
                 Code(_) => "code",
                 Html(_) => "html",
@@ -69,29 +69,26 @@ pub fn parse(text: &str, options: u32) -> js_sys::Array {
                 match tag {
                     Heading(level) => set(&object, "level", level),
                     FootnoteDefinition(label) => set(&object, "label", label.into_string()),
-                    List(data) => match data {
-                        None => set(&object, "kind", "unordered"),
-                        Some(number) => {
-                            set(&object, "kind", "ordered");
-                            set(&object, "number", number as i32);
-                        }
+                    List(number) => match number {
+                        Some(number) => set(&object, "startNumber", number as i32),
+                        None => (),
                     },
                     CodeBlock(kind) => {
                         use pulldown_cmark::CodeBlockKind::*;
                         match kind {
                             Indented => set(&object, "kind", "indented"),
-                            Fenced(lang) => {
+                            Fenced(language) => {
                                 set(&object, "kind", "fenced");
-                                set(&object, "lang", lang.into_string());
+                                set(&object, "language", language.into_string());
                             }
                         };
                     }
-                    Table(alignment) => {
+                    Table(alignments) => {
                         let array = js_sys::Array::new();
                         use pulldown_cmark::Alignment::*;
-                        for a in alignment {
+                        for alignment in alignments {
                             array.push(
-                                &match a {
+                                &match alignment {
                                     None => "none",
                                     Left => "left",
                                     Center => "center",
@@ -100,7 +97,7 @@ pub fn parse(text: &str, options: u32) -> js_sys::Array {
                                 .into(),
                             );
                         }
-                        set(&object, "alignment", array);
+                        set(&object, "alignments", array);
                     }
                     Link(kind, url, title) | Image(kind, url, title) => {
                         use pulldown_cmark::LinkType::*;
@@ -110,13 +107,13 @@ pub fn parse(text: &str, options: u32) -> js_sys::Array {
                             match kind {
                                 Inline => "inline",
                                 Reference => "reference",
-                                ReferenceUnknown => "referenceUnknown",
                                 Collapsed => "collapsed",
-                                CollapsedUnknown => "collapsedUnknown",
                                 Shortcut => "shortcut",
-                                ShortcutUnknown => "shortcutUnknown",
                                 Autolink => "autolink",
                                 Email => "email",
+                                ReferenceUnknown | CollapsedUnknown | ShortcutUnknown => {
+                                    unreachable!()
+                                }
                             },
                         );
                         set(&object, "url", url.into_string());

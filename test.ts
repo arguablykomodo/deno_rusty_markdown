@@ -22,7 +22,7 @@ Deno.test("parse", () => {
     parse(input),
     [
       {
-        type: "startTag",
+        type: "start",
         tag: "paragraph",
       },
       {
@@ -30,7 +30,7 @@ Deno.test("parse", () => {
         content: "Hello world, this is a ~~complicated~~ ",
       },
       {
-        type: "startTag",
+        type: "start",
         tag: "emphasis",
       },
       {
@@ -38,7 +38,7 @@ Deno.test("parse", () => {
         content: "very simple",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "emphasis",
       },
       {
@@ -46,7 +46,7 @@ Deno.test("parse", () => {
         content: " example.",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "paragraph",
       },
     ],
@@ -58,7 +58,7 @@ Deno.test("parse with options", () => {
     parse(input, { strikethrough: true }),
     [
       {
-        type: "startTag",
+        type: "start",
         tag: "paragraph",
       },
       {
@@ -66,7 +66,7 @@ Deno.test("parse with options", () => {
         content: "Hello world, this is a ",
       },
       {
-        type: "startTag",
+        type: "start",
         tag: "strikethrough",
       },
       {
@@ -74,7 +74,7 @@ Deno.test("parse with options", () => {
         content: "complicated",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "strikethrough",
       },
       {
@@ -82,7 +82,7 @@ Deno.test("parse with options", () => {
         content: " ",
       },
       {
-        type: "startTag",
+        type: "start",
         tag: "emphasis",
       },
       {
@@ -90,7 +90,7 @@ Deno.test("parse with options", () => {
         content: "very simple",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "emphasis",
       },
       {
@@ -98,7 +98,7 @@ Deno.test("parse with options", () => {
         content: " example.",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "paragraph",
       },
     ],
@@ -120,7 +120,7 @@ Deno.test("doctests", () => {
     parse("Foo *Bar*"),
     [
       {
-        type: "startTag",
+        type: "start",
         tag: "paragraph",
       },
       {
@@ -128,7 +128,7 @@ Deno.test("doctests", () => {
         content: "Foo ",
       },
       {
-        type: "startTag",
+        type: "start",
         tag: "emphasis",
       },
       {
@@ -136,11 +136,11 @@ Deno.test("doctests", () => {
         content: "Bar",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "emphasis",
       },
       {
-        type: "endTag",
+        type: "end",
         tag: "paragraph",
       },
     ],

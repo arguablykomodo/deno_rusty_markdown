@@ -3,8 +3,8 @@ export type { Token };
 
 // @deno-types="./wasm/deno_rusty_markdown.d.ts"
 import {
-  html as internalHtml,
-  parse as internalParse,
+  html as html_,
+  tokens as tokens_,
 } from "./wasm/deno_rusty_markdown.js";
 
 /**
@@ -42,30 +42,12 @@ function encodeOptions(options: Options): number {
     (+(options.smartPunctuation ?? false) << 5);
 }
 
-/**
- * Parses the given Markdown into HTML.
- *
- * @param text - Source Markdown text
- * @param options - Extra enabled features
- * @returns Parsed HTML
- */
-export function html(
-  text: string,
-  options: Options = {},
-): string {
-  return internalHtml(text, encodeOptions(options));
+/** Parses the given Markdown text into a list of tokens. */
+export function tokens(text: string, options: Options = {}): Token[] {
+  return tokens_(text, encodeOptions(options));
 }
 
-/**
- * Parses the given Markdown into a list of tokens.
- *
- * @param text - Source Markdown text
- * @param options - Extra enabled features
- * @returns Token list
- */
-export function parse(
-  text: string,
-  options: Options = {},
-): Token[] {
-  return internalParse(text, encodeOptions(options));
+/** Parses the given tokens into HTML. */
+export function html(tokens: Token[]): string {
+  return html_(tokens);
 }

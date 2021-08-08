@@ -2,42 +2,23 @@ mod consts;
 mod de;
 mod ser;
 
-use pulldown_cmark::{html::push_html, Options, Parser};
+use js_sys::Array;
+use pulldown_cmark::Options;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn html(text: &str, options: u32) -> String {
-    let parser = Parser::new_ext(text, Options::from_bits_truncate(options));
-    let mut output: String = String::with_capacity(text.len() * 3 / 2);
-    push_html(&mut output, parser);
-    output
+pub fn tokens(text: String, options: u32) -> Array {
+    let parser = pulldown_cmark::Parser::new_ext(&text, Options::from_bits_truncate(options));
+    parser.into_iter().map(ser::serialize).collect()
 }
 
 #[wasm_bindgen]
-pub fn parse(text: &str, options: u32) -> js_sys::Array {
-    let parser = Parser::new_ext(text, Options::from_bits_truncate(options));
-    let array = js_sys::Array::new();
-    for event in parser {
-        let object = ser::serialize(event);
-        array.push(&object);
-    }
-    return array;
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_html() {
-        let text = "Hello world, this is a ~~complicated~~ *very simple* example.";
-        assert_eq!(
-            &html(text, 0),
-            "<p>Hello world, this is a ~~complicated~~ <em>very simple</em> example.</p>\n"
-        );
-        assert_eq!(
-            &html(text, 1 << 3),
-            "<p>Hello world, this is a <del>complicated</del> <em>very simple</em> example.</p>\n"
-        );
-    }
+pub fn html(tokens: Array) -> Result<String, JsValue> {
+    let events = tokens
+        .iter()
+        .map(de::deserialize)
+        .collect::<Result<Vec<_>, _>>()?;
+    let mut html = String::new();
+    pulldown_cmark::html::push_html(&mut html, events.into_iter());
+    Ok(html)
 }

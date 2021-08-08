@@ -1,3 +1,4 @@
+mod consts;
 mod ser;
 
 use pulldown_cmark::{html::push_html, Options, Parser};

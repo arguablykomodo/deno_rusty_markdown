@@ -27,11 +27,6 @@ pub fn serialize(event: Event) -> Object {
         },
     );
     match event {
-        FootnoteReference(label) => set(&object, LABEL, label.into_string()),
-        TaskListMarker(checked) => set(&object, CHECKED, checked),
-        Text(content) | Code(content) | Html(content) => {
-            set(&object, CONTENT, content.into_string())
-        }
         Start(tag) | End(tag) => {
             use pulldown_cmark::Tag::*;
             set(
@@ -58,11 +53,6 @@ pub fn serialize(event: Event) -> Object {
             );
             match tag {
                 Heading(level) => set(&object, LEVEL, level),
-                FootnoteDefinition(label) => set(&object, LABEL, label.into_string()),
-                List(number) => match number {
-                    Some(number) => set(&object, START_NUMBER, number as i32),
-                    None => (),
-                },
                 CodeBlock(kind) => {
                     use pulldown_cmark::CodeBlockKind::*;
                     match kind {
@@ -73,6 +63,11 @@ pub fn serialize(event: Event) -> Object {
                         }
                     };
                 }
+                List(number) => match number {
+                    Some(number) => set(&object, START_NUMBER, number as i32),
+                    None => (),
+                },
+                FootnoteDefinition(label) => set(&object, LABEL, label.into_string()),
                 Table(alignments) => {
                     let array = js_sys::Array::new();
                     use pulldown_cmark::Alignment::*;
@@ -112,6 +107,11 @@ pub fn serialize(event: Event) -> Object {
                 _ => (),
             };
         }
+        Text(content) | Code(content) | Html(content) => {
+            set(&object, CONTENT, content.into_string())
+        }
+        FootnoteReference(label) => set(&object, LABEL, label.into_string()),
+        TaskListMarker(checked) => set(&object, CHECKED, checked),
         _ => (),
     }
     object

@@ -20,13 +20,24 @@ const wasm = await Deno.readFile(`${dir}/${name}_bg.wasm`);
 const encoded = encode(compress(wasm));
 
 const search =
-String.raw`const file = new URL(import.meta.url).pathname;
-const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + '${name}_bg.wasm';
-const wasmModule = new WebAssembly.Module(Deno.readFileSync(wasmFile));`;
+`const wasm_url = new URL('${name}_bg.wasm', import.meta.url);
+let wasmCode = '';
+switch (wasm_url.protocol) {
+    case 'file:':
+    wasmCode = await Deno.readFile(wasm_url);
+    break
+    case 'https:':
+    case 'http:':
+    wasmCode = await (await fetch(wasm_url)).arrayBuffer();
+    break
+    default:
+    throw new Error(\`Unsupported protocol: \${wasm_url.protocol}\`);
+    break
+}`;
 const replace =
 `import { decode } from "https://deno.land/std@0.103.0/encoding/base64.ts";
 import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
-const wasmModule = new WebAssembly.Module(decompress(new Uint8Array(decode("${encoded}"))));`;
+const wasmCode = decompress(new Uint8Array(decode("${encoded}")));`;
 
 const js = await Deno.readTextFile(`${dir}/${name}.js`);
 await Deno.writeTextFile(`${dir}/${name}.js`, js.replace(search, replace));

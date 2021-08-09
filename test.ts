@@ -61,7 +61,8 @@ bar</li>
 
 Deno.test("integration", () => {
   for (const [text, options, testTokens, testHtml] of testData) {
-    assertEquals(tokens(text, options), testTokens);
-    assertEquals(html(testTokens), testHtml);
+    const tokenized = tokens(text, options);
+    assertEquals(tokenized, testTokens);
+    assertEquals(html(tokenized), testHtml);
   }
 });

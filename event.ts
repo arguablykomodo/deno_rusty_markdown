@@ -51,6 +51,11 @@ type TokenCommon<T> = {
   type: T;
 };
 
+/**
+ * Markdown tokens that are generated during traversal of the document.
+ * check https://docs.rs/pulldown-cmark/0.8.0/pulldown_cmark/enum.Event.html
+ * for more detailed information.
+ */
 export type Token =
   | TokenCommon<"start" | "end"> & Tag
   | TokenCommon<"text" | "code" | "html"> & { content: string }

@@ -8,7 +8,7 @@ made in Rust, compiled to WebAssembly.
 ```ts
 import { html, tokens } from "https://deno.land/x/rusty_markdown/mod.ts";
 
-const tokenized = tokens("Hello ~~Friends~~ **World**!", { strikethrough: true })");
+const tokenized = tokens("~~Goodbye~~ Hello **World**!", { strikethrough: true }));
 console.log(tokenized);
 // [
 //   { type: "start", tag: "paragraph" },

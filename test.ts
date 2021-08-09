@@ -57,6 +57,30 @@ bar</li>
 </ul>
 `,
   ],
+  [
+    "[foo][bar]\n\n[bar]:http://www.example.com/",
+    {},
+    [
+      { type: "start", tag: "paragraph" },
+      {
+        type: "start",
+        tag: "link",
+        kind: "reference",
+        title: "",
+        url: "http://www.example.com/",
+      },
+      { type: "text", content: "foo" },
+      {
+        type: "end",
+        tag: "link",
+        kind: "reference",
+        title: "",
+        url: "http://www.example.com/",
+      },
+      { type: "end", tag: "paragraph" },
+    ],
+    "",
+  ],
 ];
 
 Deno.test("integration", () => {

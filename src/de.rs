@@ -78,7 +78,7 @@ pub fn deserialize<'a>(object: JsValue) -> Result<Event<'a>, JsValue> {
                     };
                     let url = get_string(&object, URL)?.into();
                     let title = get_string(&object, TITLE)?.into();
-                    match event_type.as_str() {
+                    match tag_type.as_str() {
                         LINK => Link(link_type, url, title),
                         IMAGE => Image(link_type, url, title),
                         _ => unreachable!(),

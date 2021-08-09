@@ -12,7 +12,7 @@ type Alignment =
   | "right";
 
 type Link = {
-  linkType:
+  kind:
     | "inline"
     | "reference"
     | "collapsed"

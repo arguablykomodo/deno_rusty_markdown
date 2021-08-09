@@ -56,9 +56,5 @@ jobs:
         uses: denolib/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno }}
-      - name: Run Rust tests
-        run: cargo test
-      - name: Run Deno tests
+      - name: Run tests
         run: deno test
-      - name: Run Deno benchmarks
-        run: deno run bench.ts

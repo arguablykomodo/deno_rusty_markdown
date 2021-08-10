@@ -79,7 +79,7 @@ bar</li>
       },
       { type: "end", tag: "paragraph" },
     ],
-    "",
+    `<p><a href="http://www.example.com/">foo</a></p>\n`,
   ],
 ];
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read=wasm --allow-write=wasm --allow-run
-import { emptyDir } from "https://deno.land/std@0.103.0/fs/empty_dir.ts";
-import { encode } from "https://deno.land/std@0.103.0/encoding/base64.ts";
+import { emptyDir } from "https://deno.land/std@0.114.0/fs/empty_dir.ts";
+import { encode } from "https://deno.land/std@0.114.0/encoding/base64.ts";
 import { compress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 
 async function run(cmd: string) {
@@ -35,7 +35,7 @@ switch (wasm_url.protocol) {
     break
 }`;
 const replace =
-`import { decode } from "https://deno.land/std@0.103.0/encoding/base64.ts";
+`import { decode } from "https://deno.land/std@0.114.0/encoding/base64.ts";
 import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 const wasmCode = decompress(new Uint8Array(decode("${encoded}")));`;
 

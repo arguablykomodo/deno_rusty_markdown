@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.103.0/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.114.0/testing/asserts.ts";
 import { html, Options, Token, tokens } from "./mod.ts";
 
 const testData: Array<[string, Options, Token[], string]> = [

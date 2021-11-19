@@ -14,7 +14,7 @@ const target = "wasm32-unknown-unknown";
 
 await emptyDir(dir);
 await run(`cargo +nightly build --release --target ${target}`);
-await run(`wasm-bindgen --target deno --out-dir ${dir} target/${target}/release/${name}.wasm`);
+await run(`wasm-bindgen --reference-types --target deno --out-dir ${dir} target/${target}/release/${name}.wasm`);
 
 const wasm = await Deno.readFile(`${dir}/${name}_bg.wasm`);
 const encoded = encode(compress(wasm));

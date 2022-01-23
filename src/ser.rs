@@ -34,7 +34,7 @@ pub fn serialize(event: Event) -> Object {
                 TAG,
                 match tag {
                     Paragraph => PARAGRAPH,
-                    Heading(_) => HEADING,
+                    Heading(_, _, _) => HEADING,
                     BlockQuote => BLOCK_QUOTE,
                     CodeBlock(_) => CODE_BLOCK,
                     List(_) => LIST,
@@ -52,7 +52,25 @@ pub fn serialize(event: Event) -> Object {
                 },
             );
             match tag {
-                Heading(level) => set(&object, LEVEL, level),
+                Heading(level, id, classes) => {
+                    use pulldown_cmark::HeadingLevel::*;
+                    set(&object, LEVEL, match level {
+                        H1 => 1u8,
+                        H2 => 2,
+                        H3 => 3,
+                        H4 => 4,
+                        H5 => 5,
+                        H6 => 6,
+                    });
+                    if let Some(id) = id {
+                        set(&object, ID, id);
+                    }
+                    let array = js_sys::Array::new();
+                    for class in classes {
+                        array.push(&class.into());
+                    }
+                    set(&object, CLASSES, array);
+                },
                 CodeBlock(kind) => {
                     use pulldown_cmark::CodeBlockKind::*;
                     match kind {

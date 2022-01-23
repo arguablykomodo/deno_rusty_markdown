@@ -40,7 +40,7 @@ type TagCommon<T> = {
 
 type Tag =
   | TagCommon<SimpleTags>
-  | TagCommon<"heading"> & { level: number }
+  | TagCommon<"heading"> & { level: number, id: string, classes: string[] }
   | TagCommon<"codeBlock"> & CodeBlock
   | TagCommon<"list"> & { startNumber?: number }
   | TagCommon<"footnoteDefinition"> & { label: string }

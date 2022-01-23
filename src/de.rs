@@ -31,7 +31,33 @@ pub fn deserialize<'a>(object: JsValue) -> Result<Event<'a>, JsValue> {
             let tag_type = get_string(&object, TAG)?;
             let tag = match tag_type.as_str() {
                 PARAGRAPH => Paragraph,
-                HEADING => Heading(get_f64(&object, LEVEL)? as u32),
+                HEADING => Heading(
+                    {
+                        use pulldown_cmark::HeadingLevel::*;
+                        let value = get(&object, LEVEL)?;
+                        match value.as_f64() {
+                            Some(n) => match n as u8 {
+                                1 => H1,
+                                2 => H2,
+                                3 => H3,
+                                4 => H4,
+                                5 => H5,
+                                6 => H6,
+                                _ => return Err(value),
+                            },
+                            None => return Err(value),
+                        }
+                    },
+                    get(&object, ID)?.as_string(),
+                    {
+                        let source: Array = get(&object, CLASSES)?.into();
+                        let mut classes = Vec::with_capacity(source.length() as usize);
+                        for class in source.iter() {
+                            classes.push(class.as_string().ok_or(class)?.as_str());
+                        }
+                        classes
+                    },
+                ),
                 BLOCK_QUOTE => BlockQuote,
                 CODE_BLOCK => CodeBlock(match get_string(&object, KIND)?.as_str() {
                     INDENTED => Indented,
